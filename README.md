@@ -36,8 +36,18 @@ This is a varying length transmit protocol, which maximum data length is 14 Byte
 
 ##### Frame declaration:
 + SOF(Start of frame): The initial frame of a package, which value is 0xff.
+
 + EOF(End of frame): The final frame of a package, which value is 0xff.
+
 + PID(Package identification): the identification of a package, has self checking.
+
 + CRC(Cyclic redundancy check): check form PID frame to CRC frame.
+
 + UID(Unique identification): unique identification for every data package.
-+ ADJ(Adjust frame): adjust data area to make sure data frame haven't exist 0xff.
+
++ ADJ(Adjust frame): adjust data area to make sure data frame haven't exist 0xff. 
+
+  The corresponding relationship as below image.
+  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Adjust%20Frame.jpg" alt="Adjust Frame" title="Adjust Frame" style="zoom: 50%;" />
+
++ PID(Package identification): 
