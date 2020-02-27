@@ -39,7 +39,7 @@ This is a varying length transmit protocol, which maximum data length is 14 Byte
 
 + EOF(End of frame): The final frame of a package, which value is 0xff.
 
-+ PID(Package identification): the identification of a package, has self checking.
++ UID(Unique identification): unique identification for every data package.
 
 + CRC(Cyclic redundancy check): check form PID frame to CRC frame.
 
@@ -55,8 +55,6 @@ unsigned char calculate_crc8(unsigned char *ptr, unsigned char len)
     return (crc);
 }
 ```
-
-+ UID(Unique identification): unique identification for every data package.
 
 + ADJ(Adjust frame): adjust data area to make sure data frame haven't exist 0xff. If data frame appeared 0xff, set corresponding bit in adjust frame then clear the data frame as 0x00.
 
