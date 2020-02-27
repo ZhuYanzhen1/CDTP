@@ -22,17 +22,17 @@ This is a varying length transmit protocol, which maximum data length is 14 Byte
 ***
 <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Package%20Type%20Corresponding%20Package%20Content.jpg" alt="PID Corresponding PC" title="PID Corresponding PC"  />
 
-|   Package Function   |                     Package Description                      |
-| :------------------: | :----------------------------------------------------------: |
-|  Handshake Package   | Start flag of a communication, firstly send by master device, then slave device answer with the same package. |
-|   Answered Package   | To answer every data or control package send from another device. |
-| Fully Filled Package | A package represented a data package which every data frame (in data area) is 0xff |
-|    Abort Package     | End flag of a communication whether the communicate is finished |
-|  Reset UID Package   |     To set the UID(unique identification) frame as 0x00      |
-|  Retransmit Package  |    Require another device to retransmit the error package    |
-|   Request Package    | Send a request from master to slave, slave device transmit corresponding data to master device. |
-| DATA0/DATA1 Package  | When do high capacity transmit task, DATA0 package and DATA1 package should use alternates with each other. |
-|     Idle Package     | Reserve package for small amount of data or command transmission |
+|   Package Function    |                     Package Description                      |
+| :-------------------: | :----------------------------------------------------------: |
+|   Handshake Package   | Start flag of a communication, firstly send by master device, then slave device answer with the same package. |
+|   Answered Package    | To answer every data or control package send from another device. |
+| Fully Filled Package  | A package represented a data package which every data frame (in data area) is 0xff |
+|     Abort Package     | End flag of a communication whether the communicate is finished |
+| ~~Reset UID Package~~ |   ~~To set the UID(unique identification) frame as 0x00~~    |
+|  Retransmit Package   |    Require another device to retransmit the error package    |
+|    Request Package    | Send a request from master to slave, slave device transmit corresponding data to master device. |
+|  DATA0/DATA1 Package  | When do high capacity transmit task, DATA0 package and DATA1 package should use alternates with each other. |
+|     Idle Package      | Reserve package for small amount of data or command transmission |
 
 ##### Frame declaration:
 + SOF(Start of frame): The initial frame of a package, which value is 0xff.
