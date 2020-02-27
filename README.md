@@ -1,6 +1,6 @@
 # Data Transmit Protocol
 
-[切换到中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/README.md)
+[切换到中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/README_CN.md)
 
 ***
 
