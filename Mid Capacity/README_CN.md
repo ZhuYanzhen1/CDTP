@@ -1,5 +1,7 @@
 # 中容量数传协议
 
+[Switch to English](https://github.com/ZhuYanzhen1/CDTP/blob/master/Mid%20Capacity/README.md)
+
 ***
 
 ### 适用场景:

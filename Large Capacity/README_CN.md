@@ -1,5 +1,7 @@
 # 大容量数传协议
 
+[Switch to English](https://github.com/ZhuYanzhen1/CDTP/blob/master/Large%20Capacity/README.md)
+
 ***
 
 ### 适用场景:

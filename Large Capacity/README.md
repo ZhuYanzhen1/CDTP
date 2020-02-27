@@ -1,4 +1,6 @@
-# Capacity Data Transmit Protocol
+# Large Capacity Data Transmit Protocol
+
+[切换到中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/Large%20Capacity/README_CN.md)
 
 ***
 
