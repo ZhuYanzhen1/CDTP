@@ -46,7 +46,7 @@ This is a fixed-length transmit protocol, each package (the smallest unit of a t
 
 ### Porting Code：
 
-1. Proting files "encrypt.c，encrypt.h，decrypt.c，decrypt.h，ioctrl.c，ioctrl.h" into your project，then add the support of standard c lib "string.h"
+1. Porting files "encrypt.c，encrypt.h，decrypt.c，decrypt.h，ioctrl.c，ioctrl.h" into your project，then add the support of standard c lib "string.h"
 2.  Realize the single byte transmit function in "ioctrl.c", which function name is Comm_SendChar.
 3. After receiving a byte，call the "Comm_Rcv" function in "ioctrl.c", as well deliver the received byte to buf.
 4. After finished the previous steps，call the "Send_Data" function to send a package; it'll trig the "Receive_CallBack" function in "ioctrl.c" if received a package.
