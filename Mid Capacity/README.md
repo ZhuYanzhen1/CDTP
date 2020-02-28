@@ -13,7 +13,7 @@
 
 + Mid capacity data transmit from slave to master
 
-+ Don't need stabable transmit
++ Don't need stable transmit
 
 + Support burst transmission
 
