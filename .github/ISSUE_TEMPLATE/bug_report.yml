@@ -12,13 +12,13 @@ body:
           required: true
         - label: "我已经在 [Issue Tracker](……/) 中找过我要提出的问题。<br>I have searched on the [issue tracker](……/) for a related issue."
           required: true
-        - label: "我已经仔细看过 [Documentation](https://github.com/ZhuYanzhen1/miniFOC/wiki) 并无法自行解决问题。 <br>I have read the [documentation](https://github.com/ZhuYanzhen1/miniFOC/wiki) and was unable to solve the issue."
+        - label: "我已经仔细看过 [Documentation](https://github.com/ZhuYanzhen1/CDTP/blob/master/README_CN.md) 并无法自行解决问题。 <br>I have read the [documentation](https://github.com/ZhuYanzhen1/CDTP/blob/master/README.md) and was unable to solve the issue."
           required: true
-        - label: "这是 miniFOC 核心的问题，并非我所使用的 miniFOC 衍生版本的特定问题。  <br>This is an issue of the miniFOC core, not to the derivatives of miniFOC."
+        - label: "这是 CDTP 核心的问题，并非我所使用的 CDTP 衍生版本的特定问题。  <br>This is an issue of the CDTP core, not to the derivatives of CDTP."
           required: true
   - type: input
     attributes:
-      label: miniFOC version
+      label: CDTP version
     validations:
       required: true
   - type: dropdown
@@ -33,17 +33,7 @@ body:
   - type: textarea
     attributes:
       render: yaml
-      label: "miniFOC config"
-      description: "在下方附上 config.h 脱敏后配置文件的内容。 <br>Paste the miniFOC config.h file content below."
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      render: shell
-      label: miniFOC log
-      description: "在下方附上 miniFOC 从串口返回的日志信息，log level 使用 DEBUG。 <br>Paste the miniFOC log from UART below with the log level set to `DEBUG`."
-  - type: textarea
-    attributes:
-      label: Description
+      label: "CDTP config"
+      description: "在下方描述出错的问题。 <br>Describe the problem below."
     validations:
       required: true
