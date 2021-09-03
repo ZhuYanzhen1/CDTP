@@ -2,27 +2,22 @@
 
 English / [中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/ldtp/README_CN.md)
 
-***
-
 ### Applicable Scenario:
+
 + Based on Half-Duplex transmit protocol
-
 + High capacity data transmit from slave to master
-
 + Low capacity data transmit from master to slave
-
 + Stable transmit with retransmit function and Answer function
-
 + Various data checking methods
-
 + Support burst transmission
 
 ***
 
 ### Description:
-This is a varying length transmit protocol, which maximum data length is 14 Byte and minimum is 3 Byte. The base element of a package include SOF(Start Of Frame), PID(Package Identification) and EOF(End Of Frame). A communication is established by a Handshake package from master device, and every data or control package requires an Answer package from another device. Each frame occupy a Byte(8 bits).
 
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Package%20Type%20Corresponding%20Package%20Content.jpg" alt="PID Corresponding PC" title="PID Corresponding PC"  />
+&nbsp;&nbsp;&nbsp;&nbsp;This is a varying length transmit protocol, which maximum data length is 14 Byte and minimum is 3 Byte. The base element of a package include SOF(Start Of Frame), PID(Package Identification) and EOF(End Of Frame). A communication is established by a Handshake package from master device, and every data or control package requires an Answer package from another device. Each frame occupy a Byte(8 bits).
+
+![PID_Corresponding](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Package%20Type%20Corresponding%20Package%20Content.jpg)
 
 |   Package Function    |                     Package Description                      |
 | :-------------------: | :----------------------------------------------------------: |
@@ -37,57 +32,44 @@ This is a varying length transmit protocol, which maximum data length is 14 Byte
 |     Idle Package      | Reserve package for small amount of data or command transmission |
 
 ##### Frame declaration:
+
 + SOF(Start of frame): The initial frame of a package, which value is 0xff.
-
 + EOF(End of frame): The final frame of a package, which value is 0xff.
-
 + UID(Unique identification): unique identification for every data package.
-
 + CRC(Cyclic redundancy check): check form PID frame to CRC frame.
+  ```c
+  unsigned char calculate_crc8(unsigned char *ptr, unsigned char len) {
+      unsigned char crc_result = 0x00;
+      while (len--)
+          crc_result = crc_table[crc ^ *ptr++];        //crc_table is below this file
+      return crc_result;
+  }
+  ```
 
-```c
-unsigned char calculate_crc8(unsigned char *ptr, unsigned char len) 
-{
-    unsigned char  crc_result = 0x00;
-    while (len--)
-    {
-        crc_result = crc_table[crc ^ *ptr++];
-        //crc_table is at the end of this document
-    }
-    return (crc);
-}
-```
++ ADJ(Adjust frame): adjust data area to make sure data frame haven't exist 0xff. If data frame appeared 0xff, set corresponding bit in adjust frame then clear the data frame as 0x00. The corresponding relationship is as below image.
+  ![Adjust Frame](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Adjust%20Frame.jpg)
 
-+ ADJ(Adjust frame): adjust data area to make sure data frame haven't exist 0xff. If data frame appeared 0xff, set corresponding bit in adjust frame then clear the data frame as 0x00.
++ PID(Package identification): occupied 4 bits, values range from 0 to 15. Low 4 bits is the inverse of the High 4bits. The self checking method is as below image.
+  ![PID_Frame](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/PID%20Frame.jpg)
 
-  The corresponding relationship is as below image.
-  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Adjust%20Frame.jpg" alt="Adjust Frame" title="Adjust Frame" style="zoom: 50%;" />
 
-+ PID(Package identification): occupied 4 bits, values range from 0 to 15. Low 4 bits is the inverse of the High 4bits.
-
-  The self checking method is as below image.
-  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/PID%20Frame.jpg" alt="PID Frame" title="PID Frame" style="zoom: 50%;" />
-
-+ Err_Type: the type of error package received previous.
-  
++ Error_Type: the type of error package received previous.
     - 0: Lost EOF or SOF (two 0xff frame adjacent appeared)
     - 1: CRC value unequal
     - 2: Data UID unequal (the UID of adjacent data package isn't continuous)
     - 3: PID self check error
     - 4: Package length error
-
 + Request_Type: reserved, defined by user, value: 0~255
-
-+ Err_UID: the UID of error package received previous, if haven't received UID, set the frame as 0.
++ Error_UID: the UID of error package received previous, if haven't received UID, set the frame as 0.
 
 ***
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Master%20Side).jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
 
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Slave%20Side).jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
+![Transmit_Process_Master](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Master%20Side).jpg)
+
+![Transmit_Process_Slave](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Slave%20Side).jpg)
 
 ```c
-static const unsigned char crc_table[] =
-{
+static const unsigned char crc_table[] ={
     0x00,0x31,0x62,0x53,0xc4,0xf5,0xa6,0x97,0xb9,0x88,0xdb,0xea,0x7d,0x4c,0x1f,0x2e,
     0x43,0x72,0x21,0x10,0x87,0xb6,0xe5,0xd4,0xfa,0xcb,0x98,0xa9,0x3e,0x0f,0x5c,0x6d,
     0x86,0xb7,0xe4,0xd5,0x42,0x73,0x20,0x11,0x3f,0x0e,0x5d,0x6c,0xfb,0xca,0x99,0xa8,

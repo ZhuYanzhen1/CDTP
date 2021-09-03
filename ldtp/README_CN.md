@@ -3,25 +3,21 @@
 [English](https://github.com/ZhuYanzhen1/CDTP/blob/master/ldtp/README.md) / 中文
 
 ### 适用场景:
+
 + 基于半双工传输协议
-
 + 从机向主机进行大容量数据传输
-
 + 主机向从机进行小容量数据传输
-
 + 需要稳定的重新传输和应答机制
-
 + 需要多样化的数据校验方式
-
 + 需要支持突发传输
 
 ***
 
 ### 说明：
 
-这是一个可变长度传输协议，最大数据长度为14字节，最小数据长度为3字节。基本的包元素含有起始帧，包标识符，结束帧。通信建立前由主设备起握手包，在每一帧数据或者控制包传输后，需要由从设备进行应答，每帧数据占用一字节（八个二进制位）。
+&nbsp;&nbsp;&nbsp;&nbsp;这是一个可变长度传输协议，最大数据长度为14字节，最小数据长度为3字节。基本的包元素含有起始帧，包标识符，结束帧。通信建立前由主设备起握手包，在每一帧数据或者控制包传输后，需要由从设备进行应答，每帧数据占用一字节（八个二进制位）。
 
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Package%20Type%20Corresponding%20Package%20Content_cn.jpg" alt="PID Corresponding PC" title="PID Corresponding PC"  />
+![PID_Corresponding](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Package%20Type%20Corresponding%20Package%20Content_cn.jpg)
 
 | 包功能（包名） |                            包说明                            |
 | :------------: | :----------------------------------------------------------: |
@@ -36,57 +32,43 @@
 |     空闲包     |        保留包用于较少的数据或者命令传输，由用户自定义        |
 
 ##### 帧说明:
-+ 帧头：值为0xff的帧
 
-+ 帧尾：值为0xff的帧
++ 帧头：值为0xff的帧。
++ 帧尾：值为0xff的帧。
++ 独立ID：每一帧数据的特殊标识。
++ 校验帧：从PID到CRC的循环冗余校验。crc8的代码如下：
+  ```c
+  unsigned char calculate_crc8(unsigned char *ptr, unsigned char len) {
+      unsigned char crc_result = 0x00;
+      while (len--)
+          crc_result = crc_table[crc ^ *ptr++];        //crc表在这个README文件的结尾
+      return crc_result;
+  }
+  ```
+  
++ 包标识符：占用四个位，该值可取0到15，低四位与高四位位反。自我校验方式在以下图中说明：
+  ![PID_Frame](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/PID%20Frame_cn.jpg)
 
-+ 独立ID：每一帧数据的特殊标识
-
-+ 校验帧：从PID到CRC的循环冗余校验
-
-```c
-unsigned char calculate_crc8(unsigned char *ptr, unsigned char len) 
-{
-    unsigned char  crc_result = 0x00;
-    while (len--)
-    {
-        crc_result = crc_table[crc ^ *ptr++];
-        //crc表在这个README文件的结尾
-    }
-    return (crc);
-}
-```
-
-+ 调整帧：调整数据区以确保数据帧中不含有0xff。如果含有，就会设置相对应的位用于调整帧节，最后清除该数据帧为0x00
-
-  调整方式在下图中说明
- <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Adjust%20Frame_cn.jpg" alt="Adjust Frame" title="Adjust Frame" style="zoom: 50%;" />
-
-+ 包标识符：占用四个位，该值可取0到15，低四位与高四位位反。
-
-  自我校验方式在以下图中说明
-  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/PID%20Frame_cn.jpg" alt="PID Frame" title="PID Frame" style="zoom: 50%;" />
++ 调整帧：调整数据区以确保数据帧中不含有0xff。如果含有，就会设置相对应的位用于调整帧节，最后清除该数据帧为0x00。调整方式在下图中说明：
+  ![Adjust_Frame](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Adjust%20Frame_cn.jpg)
 
 + 出错类型：先前接收到的错误包的类型
-  
     - 0：丢失帧头或帧尾（出现两个相邻的0xff帧）
     - 1: CRC 校验值与接收的值不等同
     - 2: 数据包相应独立ID与接收的值不相同（相邻数据包的UID不连续）
     - 3: 包标识符自我校验出错
     - 4: 包长度出错
-
 + 请求类型: 预留, 由用户自定义，范围0~254
-
 + 出错UID: 之前收到错误包的UID，如果没有收到UID，该值应为0.
 
 ***
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Master%20Side)_cn.jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
 
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Slave%20Side)_cn.jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
+![Transmit_Process_Master](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Master%20Side)_cn.jpg)
+
+![Transmit_Process_Slave](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Slave%20Side)_cn.jpg)
 
 ```c
-static const unsigned char crc_table[] =
-{
+static const unsigned char crc_table[] ={
     0x00,0x31,0x62,0x53,0xc4,0xf5,0xa6,0x97,0xb9,0x88,0xdb,0xea,0x7d,0x4c,0x1f,0x2e,
     0x43,0x72,0x21,0x10,0x87,0xb6,0xe5,0xd4,0xfa,0xcb,0x98,0xa9,0x3e,0x0f,0x5c,0x6d,
     0x86,0xb7,0xe4,0xd5,0x42,0x73,0x20,0x11,0x3f,0x0e,0x5d,0x6c,0xfb,0xca,0x99,0xa8,

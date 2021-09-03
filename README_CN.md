@@ -19,6 +19,15 @@
 
 ***
 
+### 源码移植：
+
+1. 将"src"文件夹中的encrypt.c，encrypt.h，decrypt.c，decrypt.h，ioctrl.c，ioctrl.h文件均移植到项目中
+2. 在ioctrl.c文件中实现最基本的发送单个字节功能，即实现Comm_SendChar函数，将Buf发送出去
+3. 在接收完成一个字节的数据后，调用decrypt.c文件的Comm_Received_CallBack函数，将接收的字节传到buf中
+4. 完成上述步骤后，调用encrypt中的函数Send_Data即可发送包；接收完成一个包后会触发ioctrl.c中的回调函数Receive_CallBack
+
+***
+
 ### BUG报告 & 功能需求
 
 请使用[Issue Tracker](https://github.com/ZhuYanzhen1/CDTP/issues)报告错误和需求功能，并遵循以下要求：
