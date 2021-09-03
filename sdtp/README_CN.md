@@ -1,8 +1,6 @@
 # 小容量数传协议
 
-[Switch to English](https://github.com/ZhuYanzhen1/CDTP/blob/master/Small%20Capacity/README.md)
-
-***
+[English](https://github.com/ZhuYanzhen1/CDTP/blob/master/sdtp/README.md) / 中文
 
 ### 适用场景:
 + 传输数据总量小于3字节
@@ -26,7 +24,7 @@
 
 ### 包内容：
 
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Package%20Content_s_cn.jpg" alt="PID Frame" title="PID Frame"  />
+<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Package%20Content_s_cn.jpg" alt="PID Frame" title="PID Frame"  />
 ##### 帧说明:
 
 每一帧的前两位为帧标识符，帧标识符有如上的四种组合，分别代表了四个不同的帧。3字节要传送的数据经过拆分和重组，以每个帧6位有效数据的方式装入每帧中。

@@ -1,8 +1,6 @@
 # Mid Capacity Data Transmit Protocol
 
-[切换到中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/Mid%20Capacity/README_CN.md)
-
-***
+English / [中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/mdtp/README_CN.md)
 
 ### Applicable Scenario:
 + The total amount of transmitted data is less than 128 Byte
@@ -26,7 +24,7 @@ This is a fixed-length transmit protocol, each package (the smallest unit of a t
 
 ### Package Contents：
 
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Package%20Contents.jpg" alt="PID Frame" title="PID Frame"  />
+<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Package%20Contents.jpg" alt="PID Frame" title="PID Frame"  />
 ##### Frame declaration:
 + SOF(Start of frame): The initial frame of a package, which value is 0xff.
 
@@ -35,12 +33,12 @@ This is a fixed-length transmit protocol, each package (the smallest unit of a t
 + ADJ(Adjust frame): adjust data area to make sure data frame haven't exist 0xff. If data frame appeared 0xff, set corresponding bit in adjust frame then clear the data frame as 0x00.
 
   The corresponding relationship is as below image.
-  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Adjust%20Frame.jpg" alt="Adjust Frame" title="Adjust Frame" style="zoom: 50%;" />
+  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Adjust%20Frame.jpg" alt="Adjust Frame" title="Adjust Frame" style="zoom: 50%;" />
 
 + PID(Package identification): occupied 4 bits, values range from 0 to 15. Low 4 bits is the inverse of the High 4bits.
 
   The self checking method is as below image.
-  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/PID%20Frame.jpg" alt="PID Frame" title="PID Frame" style="zoom: 50%;" />
+  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/PID%20Frame.jpg" alt="PID Frame" title="PID Frame" style="zoom: 50%;" />
 
 ***
 

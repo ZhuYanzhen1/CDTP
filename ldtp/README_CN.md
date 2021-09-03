@@ -1,8 +1,6 @@
 # 大容量数传协议
 
-[Switch to English](https://github.com/ZhuYanzhen1/CDTP/blob/master/Large%20Capacity/README.md)
-
-***
+[English](https://github.com/ZhuYanzhen1/CDTP/blob/master/ldtp/README.md) / 中文
 
 ### 适用场景:
 + 基于半双工传输协议
@@ -22,8 +20,8 @@
 ### 说明：
 
 这是一个可变长度传输协议，最大数据长度为14字节，最小数据长度为3字节。基本的包元素含有起始帧，包标识符，结束帧。通信建立前由主设备起握手包，在每一帧数据或者控制包传输后，需要由从设备进行应答，每帧数据占用一字节（八个二进制位）。
-***
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Package%20Type%20Corresponding%20Package%20Content_cn.jpg" alt="PID Corresponding PC" title="PID Corresponding PC"  />
+
+<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Package%20Type%20Corresponding%20Package%20Content_cn.jpg" alt="PID Corresponding PC" title="PID Corresponding PC"  />
 
 | 包功能（包名） |                            包说明                            |
 | :------------: | :----------------------------------------------------------: |
@@ -40,7 +38,7 @@
 ##### 帧说明:
 + 帧头：值为0xff的帧
 
-+ 桢尾：值为0xff的帧
++ 帧尾：值为0xff的帧
 
 + 独立ID：每一帧数据的特殊标识
 
@@ -62,12 +60,12 @@ unsigned char calculate_crc8(unsigned char *ptr, unsigned char len)
 + 调整帧：调整数据区以确保数据帧中不含有0xff。如果含有，就会设置相对应的位用于调整帧节，最后清除该数据帧为0x00
 
   调整方式在下图中说明
- <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Adjust%20Frame_cn.jpg" alt="Adjust Frame" title="Adjust Frame" style="zoom: 50%;" />
+ <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Adjust%20Frame_cn.jpg" alt="Adjust Frame" title="Adjust Frame" style="zoom: 50%;" />
 
 + 包标识符：占用四个位，该值可取0到15，低四位与高四位位反。
 
   自我校验方式在以下图中说明
-  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/PID%20Frame_cn.jpg" alt="PID Frame" title="PID Frame" style="zoom: 50%;" />
+  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/PID%20Frame_cn.jpg" alt="PID Frame" title="PID Frame" style="zoom: 50%;" />
 
 + 出错类型：先前接收到的错误包的类型
   
@@ -82,9 +80,9 @@ unsigned char calculate_crc8(unsigned char *ptr, unsigned char len)
 + 出错UID: 之前收到错误包的UID，如果没有收到UID，该值应为0.
 
 ***
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Transmit%20Process(Master%20Side)_cn.jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
+<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Master%20Side)_cn.jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
 
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Transmit%20Process(Slave%20Side)_cn.jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
+<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Slave%20Side)_cn.jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
 
 ```c
 static const unsigned char crc_table[] =

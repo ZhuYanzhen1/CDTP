@@ -1,8 +1,6 @@
-# Mid Capacity Data Transmit Protocol
+# Small Capacity Data Transmit Protocol
 
-[切换到中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/Small%20Capacity/README_CN.md)
-
-***
+English / [中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/sdtp/README_CN.md)
 
 ### Applicable Scenario:
 + The total amount of transmitted data is less than 3 Byte
@@ -26,7 +24,7 @@ This is a fixed-length transmit protocol, each package (the smallest unit of a t
 
 ### Package Contents：
 
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Package%20Content_s.jpg" alt="PID Frame" title="PID Frame"  />
+<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Package%20Content_s.jpg" alt="PID Frame" title="PID Frame"  />
 ##### Frame declaration:
 
 The first two bits of each frame are frame identifiers. There are four combinations of the frame identifiers, representing four different frames. The 3-byte data which have to be transmitted are split and reorganized, and loaded into frame in the way of 6-bit effective data of each frame.

@@ -1,8 +1,6 @@
 # 中容量数传协议
 
-[Switch to English](https://github.com/ZhuYanzhen1/CDTP/blob/master/Mid%20Capacity/README.md)
-
-***
+[English](https://github.com/ZhuYanzhen1/CDTP/blob/master/Mid%20Capacity/README.md) / 中文
 
 ### 适用场景:
 + 传输数据总量小于128字节
@@ -26,7 +24,7 @@
 
 ### 包内容：
 
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Package%20Contents_cn.jpg" alt="PID Frame" title="PID Frame"  />
+<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Package%20Contents_cn.jpg" alt="PID Frame" title="PID Frame"  />
 ##### 帧说明:
 + 帧头：值为0xff的帧
 
@@ -35,12 +33,12 @@
 + 包标识符：占用四个位，该值可取0到15，低四位与高四位位反。
 
   自我校验方式在以下图中说明
-  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/PID%20Frame_cn.jpg" alt="PID Frame" title="PID Frame" style="zoom: 50%;" />
+  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/PID%20Frame_cn.jpg" alt="PID Frame" title="PID Frame" style="zoom: 50%;" />
 
 + 调整帧：调整数据区以确保数据帧中不含有0xff。如果含有，就会设置相对应的位用于调整帧节，最后清除该数据帧为0x00
 
   调整方式在下图中说明
- <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Adjust%20Frame_cn.jpg" alt="Adjust Frame" title="Adjust Frame" style="zoom: 50%;" />
+ <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Adjust%20Frame_cn.jpg" alt="Adjust Frame" title="Adjust Frame" style="zoom: 50%;" />
 
 ***
 

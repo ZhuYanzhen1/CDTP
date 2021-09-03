@@ -1,6 +1,6 @@
 # Large Capacity Data Transmit Protocol
 
-[切换到中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/Large%20Capacity/README_CN.md)
+English / [中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/ldtp/README_CN.md)
 
 ***
 
@@ -21,8 +21,8 @@
 
 ### Description:
 This is a varying length transmit protocol, which maximum data length is 14 Byte and minimum is 3 Byte. The base element of a package include SOF(Start Of Frame), PID(Package Identification) and EOF(End Of Frame). A communication is established by a Handshake package from master device, and every data or control package requires an Answer package from another device. Each frame occupy a Byte(8 bits).
-***
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Package%20Type%20Corresponding%20Package%20Content.jpg" alt="PID Corresponding PC" title="PID Corresponding PC"  />
+
+<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Package%20Type%20Corresponding%20Package%20Content.jpg" alt="PID Corresponding PC" title="PID Corresponding PC"  />
 
 |   Package Function    |                     Package Description                      |
 | :-------------------: | :----------------------------------------------------------: |
@@ -61,12 +61,12 @@ unsigned char calculate_crc8(unsigned char *ptr, unsigned char len)
 + ADJ(Adjust frame): adjust data area to make sure data frame haven't exist 0xff. If data frame appeared 0xff, set corresponding bit in adjust frame then clear the data frame as 0x00.
 
   The corresponding relationship is as below image.
-  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Adjust%20Frame.jpg" alt="Adjust Frame" title="Adjust Frame" style="zoom: 50%;" />
+  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Adjust%20Frame.jpg" alt="Adjust Frame" title="Adjust Frame" style="zoom: 50%;" />
 
 + PID(Package identification): occupied 4 bits, values range from 0 to 15. Low 4 bits is the inverse of the High 4bits.
 
   The self checking method is as below image.
-  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/PID%20Frame.jpg" alt="PID Frame" title="PID Frame" style="zoom: 50%;" />
+  <img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/PID%20Frame.jpg" alt="PID Frame" title="PID Frame" style="zoom: 50%;" />
 
 + Err_Type: the type of error package received previous.
   
@@ -81,9 +81,9 @@ unsigned char calculate_crc8(unsigned char *ptr, unsigned char len)
 + Err_UID: the UID of error package received previous, if haven't received UID, set the frame as 0.
 
 ***
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Transmit%20Process(Master%20Side).jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
+<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Master%20Side).jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
 
-<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/Pic/Transmit%20Process(Slave%20Side).jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
+<img src="https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Transmit%20Process(Slave%20Side).jpg" alt="PID Frame" title="PID Frame" style="zoom: 100%;" />
 
 ```c
 static const unsigned char crc_table[] =
