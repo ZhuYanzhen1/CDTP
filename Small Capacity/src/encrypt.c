@@ -1,12 +1,25 @@
+//
+// Created by Lao·Zhu on 2021/9/4.
+//
+
 #include "encrypt.h"
-void Send_Data(unsigned char Data[3])
-{
-	unsigned char temp_buf[4];
-	unsigned char cnt;
-        temp_buf[0] = (Data[0] >> 2);
-        temp_buf[1] = (0x01 << 6) | ((Data[0] & 0x03) << 4) | (Data[1] >> 4);
-        temp_buf[2] = (0x01 << 7) | ((Data[1] & 0x0f) << 2) | (Data[2] >> 6);
-        temp_buf[3] = (0x03 << 6) | (Data[2] & 0x3f);
-	for(cnt = 0; cnt < 4;cnt++)
-		Comm_SendChar(temp_buf[cnt]);
+#include "ioctrl.h"
+
+/*!
+    \brief        small capacity data transmission protocol packing function
+    \param[in]    data: received data array of size 3 bytes
+    \param[out]   none
+    \retval       none
+*/
+void sdtp_data_transmit(const unsigned char *data) {
+    unsigned char transmit_buffer[4], transmit_counter;
+    /* add packet header after splitting data bytes */
+    transmit_buffer[0] = (data[0] >> 2);
+    transmit_buffer[1] = (0x01 << 6) | ((data[0] & 0x03) << 4) | (data[1] >> 4);
+    transmit_buffer[2] = (0x01 << 7) | ((data[1] & 0x0f) << 2) | (data[2] >> 6);
+    transmit_buffer[3] = (0x03 << 6) | (data[2] & 0x3f);
+    /* traverse the buffer array and send all bytes through general sendbyte function */
+    for (transmit_counter = 0; transmit_counter < 4; transmit_counter++)
+        /* transmit single byte through general sendbyte function */
+        common_sendbyte(transmit_buffer[transmit_counter]);
 }

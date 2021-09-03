@@ -1,5 +1,10 @@
+//
+// Created by Lao·Zhu on 2021/9/4.
+//
+
 #ifndef _ENCRYPT_H_
 #define _ENCRYPT_H_
-#include "ioctrl.h"
-void Send_Data(unsigned char Data[3]);
-#endif
+
+void sdtp_data_transmit(const unsigned char *data);
+
+#endif  // _ENCRYPT_H_

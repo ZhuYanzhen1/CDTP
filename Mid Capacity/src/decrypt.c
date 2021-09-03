@@ -12,7 +12,7 @@ unsigned char mdtp_receive_data_buffer[10] = {0};
 
 /*!
     \brief        medium capacity data transmission protocol unpacking handler
-    \param[in]    data: data received from UART peripheral
+    \param[in]    data: data received from general receive function
     \param[out]   none
     \retval       none
 */

@@ -1,24 +1,40 @@
+//
+// Created by Lao·Zhu on 2021/9/4.
+//
+
 #include "decrypt.h"
 #include "ioctrl.h"
-unsigned char Temp_Buf[3];
-void Comm_Received_CallBack(unsigned char buf)
-{
-	switch(((buf & 0xc0) >> 6))
-	{
-		case 0x00:
-			Temp_Buf[0] = ((buf & 0x3f) << 2);
-			break;
-		case 0x01:
-			Temp_Buf[0] |= ((buf & 0x30) >> 4);
-			Temp_Buf[1] = ((buf & 0x0f) << 4);
-			break;
-		case 0x02:
-			Temp_Buf[1] |= ((buf & 0x3c) >> 2);
-			Temp_Buf[2] = ((buf & 0x03) << 6);
-			break;
-		case 0x04:
-			Temp_Buf[2] |= (buf & 0x3f);
-			Receive_CallBack(Temp_Buf);
-		break;
-	}
+
+unsigned char receive_buffer[3];
+
+/*!
+    \brief        small capacity data transmission protocol unpacking handler
+    \param[in]    data: data received from general receive function
+    \param[out]   none
+    \retval       none
+*/
+void sdtp_receive_handler(unsigned char data) {
+    /* data receiving finite state machine */
+    switch (((data & 0xc0) >> 6)) {
+        case 0x00:
+            /* separate the first two bits of the byte to obtain valid data */
+            receive_buffer[0] = ((data & 0x3f) << 2);
+            break;
+        case 0x01:
+            /* separate the first two bits of the byte to obtain valid data */
+            receive_buffer[0] |= ((data & 0x30) >> 4);
+            receive_buffer[1] = ((data & 0x0f) << 4);
+            break;
+        case 0x02:
+            /* separate the first two bits of the byte to obtain valid data */
+            receive_buffer[1] |= ((data & 0x3c) >> 2);
+            receive_buffer[2] = ((data & 0x03) << 6);
+            break;
+        case 0x04:
+            /* separate the first two bits of the byte to obtain valid data */
+            receive_buffer[2] |= (data & 0x3f);
+            /* call user callback function to complete the next step */
+            sdtp_callback_handler(receive_buffer);
+            break;
+    }
 }

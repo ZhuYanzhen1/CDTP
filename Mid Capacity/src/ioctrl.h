@@ -6,7 +6,7 @@
 #define _IOCTRL_H_
 
 void mdtp_callback_handler(unsigned char pid, unsigned char *data);
-void common_sendbyte(unsigned char Buf);
-void common_receivebyte(unsigned char buf);
+void common_sendbyte(unsigned char data);
+void common_receivebyte(unsigned char data);
 
 #endif

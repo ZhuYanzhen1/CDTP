@@ -1,10 +1,36 @@
+//
+// Created by Lao·Zhu on 2021/9/4.
+//
+
 #include "ioctrl.h"
 #include "decrypt.h"
-void Receive_CallBack(unsigned char Data[3])
-{
-	/*Data[0]~Data[2] contains the data*/
+
+/*!
+    \brief        user callback function for unpacking completion of small capacity transport protocol
+    \param[in]    data: received data array of size 3 bytes
+    \param[out]   none
+    \retval       none
+*/
+void sdtp_callback_handler(unsigned char *data) {
+
 }
-void Comm_SendChar(unsigned char Buf)
-{
-	
+
+/*!
+    \brief        general single byte sending function
+    \param[in]    data: data byte to send
+    \param[out]   none
+    \retval       none
+*/
+void common_sendbyte(unsigned char data) {
+
+}
+
+/*!
+    \brief        general single byte receiving function
+    \param[in]    data: data byte received
+    \param[out]   none
+    \retval       none
+*/
+void common_receivebyte(unsigned char data) {
+    sdtp_receive_handler(data);
 }

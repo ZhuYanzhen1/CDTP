@@ -12,7 +12,7 @@
     \param[out]   none
     \retval     none
 */
-void mdtp_data_transmit(unsigned char pid, const unsigned char *buffer) {
+void mdtp_data_transmit(unsigned char pid, const unsigned char *data) {
     unsigned char temp_buf[12] = {0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
                                   0x00, 0x00, 0x00, 0x00, 0x00, 0xff};
     unsigned char mdtp_pack_counter;
@@ -25,16 +25,16 @@ void mdtp_data_transmit(unsigned char pid, const unsigned char *buffer) {
             temp_buf[10] = (temp_buf[10] | (1 << mdtp_pack_counter));
         } else
             /* copy data directly to transmit buffer array */
-            temp_buf[2 + mdtp_pack_counter] = buffer[mdtp_pack_counter];
+            temp_buf[2 + mdtp_pack_counter] = data[mdtp_pack_counter];
     }
     /* judge whether the package is all 0xff */
     if (temp_buf[10] == 0xff)
         temp_buf[10] = temp_buf[2] = 0xa5;
     /* load self checking packet id byte */
     temp_buf[1] = pid << 4 | ((~pid) & 0x0f);
-    /* traverse the buffer array and send all bytes through UART0 */
+    /* traverse the buffer array and send all bytes through general sendbyte function */
     for (mdtp_pack_counter = 0; mdtp_pack_counter < 12; mdtp_pack_counter++) {
-        /* transmit single byte through UART0 */
+        /* transmit single byte through general sendbyte function */
         common_sendbyte(temp_buf[mdtp_pack_counter]);
     }
 }
