@@ -1,60 +1,94 @@
+//
+// Created by Lao·Zhu on 2021/9/4.
+//
+
 #include "decrypt.h"
 #include "string.h"
 #include "ioctrl.h"
-void Comm_Received_CallBack(unsigned char Receive_Buffer[])
-{
-	unsigned char Buffer_Data_Counter=0;
-	unsigned char Buffer_Flag=0;
-	while(1)
-	{
-		if(Buffer_Flag == 0 && Receive_Buffer[Buffer_Data_Counter] == 0xff)
-			Buffer_Flag = 1;
-		else if(Buffer_Flag == 1 && Receive_Buffer[Buffer_Data_Counter] == 0xff)
-			break;
-		Buffer_Data_Counter++;
-	}
-	Buffer_Data_Counter++;
-	if(Buffer_Data_Counter == 12)   //if the package had been broken
-        {
-            unsigned char Data_Buffer[8];
-            unsigned char PID_Bit = Receive_Buffer[1]>>4;  //Get The PID Bit
-            if(PID_Bit == ((~(Receive_Buffer[1] & 0x0f)) & 0x0f) )  //PID Verify Success
-            {
-              unsigned char tmp_buf[12];
-              memset(tmp_buf,0xa5,sizeof(tmp_buf));
-              tmp_buf[0] = 0xff;
-              tmp_buf[1] = Receive_Buffer[1];
-              tmp_buf[11] = 0xff;
-              if(strcmp(Receive_Buffer,tmp_buf) == 0)
-              {
-                    memset(Data_Buffer,0xff,sizeof(Data_Buffer));
-                    Receive_CallBack(PID_Bit, Data_Buffer);
-              }
-              else
-              {
-                  unsigned char Temp_Var = 0x00 ;
-                  while(1)     //Memory Copy
-                  {
-                    Data_Buffer[Temp_Var] = Receive_Buffer[2+Temp_Var];
-                    Temp_Var++;
-                    if(Temp_Var == 8)
-                                                    break;
-                  }
-                  if(Receive_Buffer[10] != 0x00)   //Some Byte had been replace
-                  {
-                    unsigned char Temp_Filter = 0x00;
-                    Temp_Var = 0;
-                    while(1)
-                    {
-                      if(((Receive_Buffer[10] & (Temp_Filter|(0x01<<Temp_Var)))>>Temp_Var) == 1)  //This Byte Need To Adjust
-                         Data_Buffer[Temp_Var] = 0xff;    //Adjust to 0xff
-                      Temp_Var++;
-                      if(Temp_Var == 8)
-                        break;
-                    }
-                  }
-                  Receive_CallBack(PID_Bit, Data_Buffer);
+
+unsigned char mdtp_receive_status = 0;
+unsigned char mdtp_receive_number_counter = 0;
+unsigned char mdtp_receive_data_buffer[10] = {0};
+
+/*!
+    \brief        medium capacity data transmission protocol unpacking handler
+    \param[in]    data: data received from UART peripheral
+    \param[out]   none
+    \retval       none
+*/
+void mdtp_receive_handler(unsigned char data) {
+    /* data receiving finite state machine */
+    switch (mdtp_receive_status) {
+        case 0:
+            /* judge whether the packet header is received */
+            if (data == 0xff) {
+                /* enter the receive state */
+                mdtp_receive_status = 1;
+                /* clear receive array counter */
+                mdtp_receive_number_counter = 0;
+                /* clear the value in the buffer array */
+                memset(mdtp_receive_data_buffer, 0x00, sizeof(mdtp_receive_data_buffer));
+            }
+            break;
+        case 1:
+            /* judge whether the end of the packet is mistakenly recognized as the header */
+            if (!(data == 0xff && mdtp_receive_number_counter == 0)) {
+                /* judge whether the reception is completed or the error data is received */
+                if (mdtp_receive_number_counter != 10 && data != 0xff) {
+                    /* receive the data into the array in turn */
+                    mdtp_receive_data_buffer[mdtp_receive_number_counter] = data;
+                    mdtp_receive_number_counter = mdtp_receive_number_counter + 1;
+                } else if (mdtp_receive_number_counter == 10)
+                    /* jump to end of package processing */
+                    mdtp_receive_status = 2;
+                else {      /* an unexpected data had been received */
+                    /* reset to receive start of package state */
+                    mdtp_receive_status = 0;
+                    /* clear receive array counter */
+                    mdtp_receive_number_counter = 0;
+                    /* clear the value in the buffer array */
+                    memset(mdtp_receive_data_buffer, 0x00, sizeof(mdtp_receive_data_buffer));
                 }
             }
-        }
+        case 2:
+            if (data == 0xff) {
+                /* ready to receive the next packet */
+                mdtp_receive_status = 0;
+                /* verify whether the pid byte is correct*/
+                if ((mdtp_receive_data_buffer[0] >> 4) == (~mdtp_receive_data_buffer[0] & 0x0f)) {
+                    unsigned char tmp_rcv_buffer[8], counter = 0;
+                    /* judge whether the package content is all 0xff */
+                    if (mdtp_receive_data_buffer[1] == 0xa5 && mdtp_receive_data_buffer[9] == 0xa5)
+                        /* fill all bytes with 0xff */
+                        memset(tmp_rcv_buffer, 0xff, sizeof(tmp_rcv_buffer));
+                    else {
+                        /* traverse the data byte to be adjusted */
+                        for (; counter < 8; ++counter)
+                            /* judge whether the adjustment bit is 1 */
+                            if (((mdtp_receive_data_buffer[9] >> counter) & 0x01) == 0x01)
+                                /* fill the data byte with 0xff */
+                                tmp_rcv_buffer[counter] = 0xff;
+                            else
+                                /* copy data directly to the receiving array */
+                                tmp_rcv_buffer[counter] = mdtp_receive_data_buffer[counter + 1];
+                    }
+                    /* call user callback function to complete the next step */
+                    mdtp_callback_handler(mdtp_receive_data_buffer[0] >> 4, tmp_rcv_buffer);
+                }
+            } else {      /* an unexpected data had been received */
+                /* reset to receive start of package state */
+                mdtp_receive_status = 0;
+                /* clear receive array counter */
+                mdtp_receive_number_counter = 0;
+                /* clear the value in the buffer array */
+                memset(mdtp_receive_data_buffer, 0x00, sizeof(mdtp_receive_data_buffer));
+            }
+            break;
+        default:
+            /* reset to receive start of package state */
+            mdtp_receive_status = 0;
+            /* clear receive array counter */
+            mdtp_receive_number_counter = 0;
+            break;
+    }
 }

@@ -1,41 +1,37 @@
+//
+// Created by Lao·Zhu on 2021/9/4.
+//
+
 #include "ioctrl.h"
 #include "decrypt.h"
-void Receive_CallBack(unsigned char PID,unsigned char Data[])
-{
-		switch(PID)
-		{
-			case 0:
-				//Receive 0 Package
-				break;
-			/******************/
-		}
+
+/*!
+    \brief        user callback function for unpacking completion of medium capacity transport protocol
+    \param[in]    pid: medium capacity transport protocol package id
+    \param[in]    data: received data array of size 8 bytes
+    \param[out]   none
+    \retval       none
+*/
+void mdtp_callback_handler(unsigned char pid, unsigned char *data) {
+
 }
-void Comm_SendChar(unsigned char Buf)
-{
-	
+
+/*!
+    \brief        general single byte sending function
+    \param[in]    data: data byte to send
+    \param[out]   none
+    \retval       none
+*/
+void common_sendbyte(unsigned char data) {
+
 }
-unsigned char Rcv_Flg = 0x00;
-unsigned char Rcv_buf[32];
-unsigned char RX_Counter=0x01;
-void Comm_Rcv(unsigned char buf)
-{
-	if(buf == 0xff && Rcv_Flg == 1)
-	{
-		Rcv_Flg = 0;
-		RX_Counter=1;
-		Rcv_buf[11]=0xff;
-		Comm_Received_CallBack((unsigned char *)&Rcv_buf);
-	}
-	else if(buf == 0xff && Rcv_Flg == 0)
-	{
-		Rcv_Flg = 1;
-		RX_Counter=1;
-		memset(&Rcv_buf,0x00,sizeof(Rcv_buf));
-		Rcv_buf[0]=0xff;
-	}
-	else if(Rcv_Flg == 1)
-	{
-		Rcv_buf[RX_Counter] = buf;
-		RX_Counter++;
-	}
+
+/*!
+    \brief        general single byte receiving function
+    \param[in]    data: data byte received
+    \param[out]   none
+    \retval       none
+*/
+void common_receivebyte(unsigned char data) {
+    mdtp_receive_handler(data);
 }
