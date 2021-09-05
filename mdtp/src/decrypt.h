@@ -7,4 +7,4 @@
 
 void mdtp_receive_handler(unsigned char data);
 
-#endif
+#endif  // _DECRYPT_H_

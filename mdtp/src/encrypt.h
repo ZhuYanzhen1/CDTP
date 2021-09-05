@@ -7,4 +7,4 @@
 
 void mdtp_data_transmit(unsigned char pid, const unsigned char *data);
 
-#endif
+#endif  // _ENCRYPT_H_

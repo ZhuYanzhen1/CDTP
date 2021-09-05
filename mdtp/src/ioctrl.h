@@ -9,4 +9,4 @@ void mdtp_callback_handler(unsigned char pid, unsigned char *data);
 void common_sendbyte(unsigned char data);
 void common_receivebyte(unsigned char data);
 
-#endif
+#endif  // _IOCTRL_H_
