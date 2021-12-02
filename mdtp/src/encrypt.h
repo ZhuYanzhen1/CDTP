@@ -1,6 +1,10 @@
-//
-// Created by Lao·Zhu on 2021/9/4.
-//
+/*****************************************************************************
+    \file     encrypt.h
+    \brief    Medium capacity transport protocol packing function Header File.
+    \author   Lao·Zhu
+    \version  V1.0.3
+    \date     3. December 2021
+******************************************************************************/
 
 #ifndef _ENCRYPT_H_
 #define _ENCRYPT_H_
