@@ -36,7 +36,7 @@ void mdtp_receive_handler(unsigned char data) {
     switch (mdtp_receive_status) {
         case 0:
             /* judge whether the packet header is received */
-            if (data == 0xff) {
+            if (data == 0xA5) {
                 /* enter the receive state */
                 mdtp_receive_status = 1;
 
@@ -48,7 +48,7 @@ void mdtp_receive_handler(unsigned char data) {
 
         case 1:
             /* judge whether the end of the packet is mistakenly recognized as the header */
-            if (data == 0xff && mdtp_receive_number_counter != 0) {
+            if (data == 0xA5 && mdtp_receive_number_counter != 0) {
                 /* an unexpected data had been received */
                 /* reset to receive start of package state */
                 mdtp_receive_status = 0;
@@ -56,7 +56,7 @@ void mdtp_receive_handler(unsigned char data) {
                 /* clear receive array counter and buffer */
                 mdtp_receive_number_counter = 0;
                 memset(mdtp_receive_data_buffer, 0x00, sizeof(mdtp_receive_data_buffer));
-            } else if (data != 0xff) {
+            } else if (data != 0xA5) {
                 /* judge whether the reception is completed or the error data is received */
                 if (mdtp_receive_number_counter != 10) {
                     /* receive the data into the array in turn */
@@ -69,20 +69,21 @@ void mdtp_receive_handler(unsigned char data) {
             break;
 
         case 2:
-            if (data == 0xff) {
+            if (data == 0xA5) {
                 mdtp_receive_status = 0;
 
                 /* verify whether the pid byte is correct*/
                 if ((mdtp_receive_data_buffer[0] >> 4) == (~mdtp_receive_data_buffer[0] & 0x0f)) {
-                    unsigned char tmp_rcv_buffer[8], counter = 0;
-                    /* judge whether the package content is all 0xff */
-                    if (mdtp_receive_data_buffer[1] == 0xa5 && mdtp_receive_data_buffer[9] == 0xa5)
-                        memset(tmp_rcv_buffer, 0xff, sizeof(tmp_rcv_buffer));
-                    else {
+                    unsigned char tmp_rcv_buffer[8] = {0}, counter = 0;
+                    /* judge whether the adjust frame is 0xA5 */
+                    if (mdtp_receive_data_buffer[1] == 0x81 && mdtp_receive_data_buffer[9] == 0x81) {
+                        mdtp_receive_data_buffer[9] = 0xA5;
+                        mdtp_receive_data_buffer[1] = 0x00;
+                    } else {
                         /* traverse the data byte to be adjusted */
                         for (; counter < 8; ++counter)
                             if (((mdtp_receive_data_buffer[9] >> counter) & 0x01) == 0x01)
-                                tmp_rcv_buffer[counter] = 0xff;
+                                tmp_rcv_buffer[counter] = 0xA5;
                             else
                                 tmp_rcv_buffer[counter] = mdtp_receive_data_buffer[counter + 1];
                     }

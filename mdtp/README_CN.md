@@ -25,10 +25,10 @@
 
 ##### 帧说明:
 
-+ 帧头：值为0xff的帧。
-+ 帧尾：值为0xff的帧。
++ 帧头：值为0xA5的帧。
++ 帧尾：值为0xA5的帧。
 + 包标识符：占用四个位，该值可取0到15，低四位与高四位位反。自我校验方式在以下图中说明：
   ![PID_Frame](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/PID%20Frame_cn.jpg)
 
-+ 调整帧：调整数据区以确保数据帧中不含有0xff。如果含有，就会设置相对应的位用于调整帧节，最后清除该数据帧为0x00。调整方式在下图中说明：
++ 调整帧：调整数据区以确保数据帧中不含有0xA5。如果含有，就会设置相对应的位用于调整帧节，最后清除该数据帧为0x00。调整方式在下图中说明：
   ![Adjust_Frame](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Adjust%20Frame_cn.jpg)

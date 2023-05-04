@@ -25,9 +25,9 @@ English / [中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/mdtp/README_C
 
 ##### Frame declaration:
 
-+ SOF(Start of frame): The initial frame of a package, which value is 0xff.
-+ EOF(End of frame): The final frame of a package, which value is 0xff.
-+ ADJ(Adjust frame): adjust data area to make sure data frame haven't exist 0xff. If data frame appeared 0xff, set corresponding bit in adjust frame then clear the data frame as 0x00. The corresponding relationship is as below image.
++ SOF(Start of frame): The initial frame of a package, which value is 0xA5.
++ EOF(End of frame): The final frame of a package, which value is 0xA5.
++ ADJ(Adjust frame): adjust data area to make sure data frame haven't exist 0xA5. If data frame appeared 0xff, set corresponding bit in adjust frame then clear the data frame as 0x00. The corresponding relationship is as below image.
   ![Adjust Frame](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Adjust%20Frame.jpg)
 
 + PID(Package identification): occupied 4 bits, values range from 0 to 15. Low 4 bits is the inverse of the High 4bits. The self checking method is as below image.

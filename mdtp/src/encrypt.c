@@ -16,22 +16,22 @@
     \retval none
 */
 void mdtp_data_transmit(unsigned char pid, const unsigned char *buffer) {
-    unsigned char temp_buf[12] = {0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
-                                  0x00, 0x00, 0x00, 0x00, 0x00, 0xff};
+    unsigned char temp_buf[12] = {0xA5, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                  0x00, 0x00, 0x00, 0x00, 0x00, 0xA5};
     unsigned char mdtp_pack_counter;
 
     /* traverse the array to determine whether there are bytes to be adjusted */
     for (mdtp_pack_counter = 0; mdtp_pack_counter < 8; mdtp_pack_counter++) {
-        if (buffer[mdtp_pack_counter] == 0xff) {
+        if (buffer[mdtp_pack_counter] == 0xA5) {
             temp_buf[2 + mdtp_pack_counter] = 0x00;
             temp_buf[10] = (temp_buf[10] | (1 << mdtp_pack_counter));
         } else
             temp_buf[2 + mdtp_pack_counter] = buffer[mdtp_pack_counter];
     }
 
-    /* judge whether the package is all 0xff */
-    if (temp_buf[10] == 0xff)
-        temp_buf[10] = temp_buf[2] = 0xa5;
+    /* judge whether the adjust frame is 0xA5 */
+    if (temp_buf[10] == 0xA5)
+        temp_buf[10] = temp_buf[2] = 0x81;
 
     /* load self checking packet id byte */
     temp_buf[1] = pid << 4 | ((~pid) & 0x0f);
