@@ -1,6 +1,10 @@
-//
-// Created by Lao·Zhu on 2021/9/4.
-//
+/*****************************************************************************
+    \file     ioctrl.h
+    \brief    Generic single-byte send/receive functions Header File.
+    \author   Lao·Zhu
+    \version  V2.0.0
+    \date     15. October 2023
+******************************************************************************/
 
 #ifndef _IOCTRL_H_
 #define _IOCTRL_H_

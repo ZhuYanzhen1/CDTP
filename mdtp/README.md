@@ -1,6 +1,6 @@
 # Mid Capacity Data Transmit Protocol
 
-English / [中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/mdtp/README_CN.md)
+English / [中文](./README_CN.md)
 
 ### Applicable Scenario:
 
@@ -21,14 +21,14 @@ English / [中文](https://github.com/ZhuYanzhen1/CDTP/blob/master/mdtp/README_C
 
 ### Package Contents：
 
-![Package_Contents](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Package%20Contents.jpg)
+![Package_Contents](../image/Package%20Contents.jpg)
 
 ##### Frame declaration:
 
-+ SOF(Start of frame): The initial frame of a package, which value is 0xA5.
-+ EOF(End of frame): The final frame of a package, which value is 0xA5.
-+ ADJ(Adjust frame): adjust data area to make sure data frame haven't exist 0xA5. If data frame appeared 0xff, set corresponding bit in adjust frame then clear the data frame as 0x00. The corresponding relationship is as below image.
-  ![Adjust Frame](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/Adjust%20Frame.jpg)
++ SOF(Start of frame): The initial frame of a package, which value is 0xAA.
++ EOF(End of frame): The final frame of a package, which value is 0xAA.
++ ADJ(Adjust frame): adjust data area to make sure data frame haven't exist 0xAA. If data frame appeared 0xff, set corresponding bit in adjust frame then clear the data frame as 0x00. The corresponding relationship is as below image.
+  ![Adjust Frame](../image/Adjust%20Frame.jpg)
 
 + PID(Package identification): occupied 4 bits, values range from 0 to 15. Low 4 bits is the inverse of the High 4bits. The self checking method is as below image.
-  ![PID_Frame](https://raw.githubusercontent.com/ZhuYanzhen1/CDTP/master/image/PID%20Frame.jpg)
+  ![PID_Frame](../image/PID%20Frame.jpg)

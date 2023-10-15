@@ -2,8 +2,8 @@
     \file     encrypt.h
     \brief    Medium capacity transport protocol packing function Header File.
     \author   Lao·Zhu
-    \version  V1.0.3
-    \date     3. December 2021
+    \version  V2.0.0
+    \date     15. October 2023
 ******************************************************************************/
 
 #ifndef _ENCRYPT_H_

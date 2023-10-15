@@ -2,8 +2,8 @@
     \file     ioctrl.h
     \brief    Generic single-byte send/receive functions Header File.
     \author   Lao·Zhu
-    \version  V1.0.3
-    \date     3. December 2021
+    \version  V2.0.0
+    \date     15. October 2023
 ******************************************************************************/
 
 #ifndef _IOCTRL_H_

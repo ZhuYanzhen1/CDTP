@@ -2,8 +2,8 @@
     \file     ioctrl.c
     \brief    Generic single-byte send/receive functions Source File.
     \author   Lao·Zhu
-    \version  V1.0.3
-    \date     3. December 2021
+    \version  V2.0.0
+    \date     15. October 2023
 ******************************************************************************/
 
 #include "ioctrl.h"
@@ -16,6 +16,7 @@
     \retval       none
 */
 void mdtp_callback_handler(unsigned char pid, unsigned char *data) {
+
 }
 
 /*!
@@ -24,6 +25,7 @@ void mdtp_callback_handler(unsigned char pid, unsigned char *data) {
     \retval       none
 */
 void common_sendbyte(unsigned char data) {
+
 }
 
 /*!
